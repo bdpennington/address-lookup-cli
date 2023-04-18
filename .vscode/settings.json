@@ -1,0 +1,52 @@
+{
+  "editor.detectIndentation": true,
+  "editor.formatOnPaste": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "editor.guides.bracketPairs": "active",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.fixAll.eslint": true,
+    "source.organizeImports": false
+  },
+  "editor.unicodeHighlight.ambiguousCharacters": true,
+  "editor.unicodeHighlight.includeStrings": true,
+  "editor.unicodeHighlight.invisibleCharacters": true,
+
+  // The default end of line character.
+	//  - \n: LF
+	//  - \r\n: CRLF
+	//  - auto: Uses operating system specific end of line character.
+  "files.eol": "\n",
+  "files.encoding": "utf8",
+  "files.insertFinalNewline": true,
+
+  "workbench.editor.closeOnFileDelete": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.fontAliasing": "antialiased",
+  "workbench.list.smoothScrolling": true,
+
+  "extensions.ignoreRecommendations": true,
+
+  // ESLint config
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.quiet": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "vue",
+    "html",
+    "markdown",
+    "json",
+    "jsonc",
+    "json5"
+  ],
+
+  "prettier.enable": false,
+  "prettier.printWidth": 200,
+  "prettier.semi": true,
+  "prettier.singleQuote": true
+}

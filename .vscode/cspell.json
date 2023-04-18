@@ -1,0 +1,60 @@
+{
+  "id": "empora-work-sample",
+  "name": "empora-work-sample",
+  "description": "Dictionary for CSpell.",
+  "version": "0.2",
+  "ignorePaths": [],
+  "dictionaryDefinitions": [
+    {
+      "name": "Common",
+      "path": "common.txt",
+      "description": "Collection of common words",
+      "addWords": true
+    }
+  ],
+  "dictionaries": [
+    "Common",
+    "Third Party"
+  ],
+  "files": [],
+  "words": [],
+  "ignoreWords": [],
+  "import": [],
+  "patterns": [
+    {
+      "name": "js-hex-escape",
+      "pattern": "/\\\\x[a-f0-9]{2}/gi",
+      "description": "JavaScript String Hexadecimal Escape sequence."
+    },
+    {
+      "name": "js-unicode-escape",
+      "pattern": "/\\\\u[a-f0-9]{4}/gi",
+      "description": "JavaScript String Unicode Escape sequence."
+    },
+    {
+      "name": "js-regexp-flags",
+      "pattern": "/\\/[dgimsuy]{1,7}\\b(?=(?:\\.flags\\b)|\\s*$|[;),])/g", // cspell:ignore dgimsuy
+      "description": "JavaScript Match Regular Expression Flags"
+    }
+  ],
+  "languageSettings": [
+    {
+      // VSCode languageId. i.e. typescript, java, go, cpp, javascript, markdown, latex
+      // * will match against any file type.
+      "languageId": "typescript,javascript,markdown,json,make",
+      // Language locale. i.e. en-US, de-AT, or ru. * will match all locales.
+      // Multiple locales can be specified like: "en, en-US" to match both English and English US.
+      "locale": "en-US",
+      // To exclude patterns, add them to "ignoreRegExpList"
+      "ignoreRegExpList": [
+        "js-hex-escape",
+        "js-unicode-escape",
+        "js-regexp-flags"
+      ],
+      // List of dictionaries to enable by name in `dictionaryDefinitions`
+      "dictionaries": [],
+      // Dictionary definitions can also be supplied here. They are only used if "languageId" and "locale" match.
+      "dictionaryDefinitions": []
+    }
+  ]
+}
