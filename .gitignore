@@ -2,7 +2,7 @@
 node_modules
 /dist
 /.vitepress/cache
-
+/.bin
 /tests/e2e/videos/
 /tests/e2e/screenshots/
 

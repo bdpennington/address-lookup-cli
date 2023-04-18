@@ -2,10 +2,11 @@
   "name": "empora-work-sample",
   "version": "1.0.0",
   "description": "Work sample demonstration for Empora",
-  "type": "module",
-  "main": "build/index.js",
+  "bin": {
+    "address-lookup": ".bin/index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "esbuild src/main.ts --outfile=.bin/index.js --bundle --platform=node --target=node18"
   },
   "keywords": [],
   "author": "Brian Pennington",
@@ -14,6 +15,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/bdpennington/empora-work-sample"
+  },
+  "engines": {
+    "node": "^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",
