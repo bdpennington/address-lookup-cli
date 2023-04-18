@@ -30,4 +30,4 @@ node .bin/index.js
 
 ## Requirements
 
-Because this CLI makes use of node's native fetch API, it requires node 10 or higher.
+Because this CLI makes use of node's native fetch API, it requires node 18 or higher.
