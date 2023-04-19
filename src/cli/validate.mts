@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import type { CLIOptions } from '../types/cli.js';
 import * as fs from 'node:fs/promises';
 import neatCsv from 'neat-csv';
-import { validateAddress } from '../http/client.js';
+import HttpClient from '../http/client.mjs'
 import type { AddressData } from '../types/smarty.js';
 
 export default (program: Command) => {
@@ -22,7 +22,8 @@ export default (program: Command) => {
           candidates: 1,
         }))
         try {
-          const resp = await validateAddress(addressData);
+          const http = HttpClient;
+          const resp = await http.validateAddress(addressData);
           console.info(resp);
         } catch (err) {
           if (err instanceof Error) {
