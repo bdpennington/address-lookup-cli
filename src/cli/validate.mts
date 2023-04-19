@@ -16,7 +16,6 @@ export default (program: Command) => {
     .action(async (options: CLIOptions) => {
       if (!options.inFile) {
         program.error('No input-file specified.', { exitCode: EXIT_CODES.INVALID_CLI_ARGS });
-        return;
       }
       let result: string, fileData: string, parsedCsvData: Row[];
 
