@@ -11,9 +11,12 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "skipLibCheck": true,
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
   },
   "include": [
     "src",
+    "src/**/*.mts"
   ],
 }
