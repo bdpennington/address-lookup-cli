@@ -1,10 +1,11 @@
 import { Command } from 'commander';
 import type { CLIOptions } from '../types/cli.js';
 import * as fs from 'node:fs/promises';
-import neatCsv from 'neat-csv';
+import neatCsv, { type Row } from 'neat-csv';
 import HttpClient from '../http/client.mjs'
 import { EXIT_CODES } from '../constants.mjs';
 import type { AddressData, AddressLookupResponse } from '../types/smarty.js';
+import { ObjValues } from '../types/helpers.js';
 
 export default (program: Command) => {
   return program
@@ -14,43 +15,46 @@ export default (program: Command) => {
     .option('-o, --out-file <file>', 'output file (if omitted, stdout is used)')
     .action(async (options: CLIOptions) => {
       if (!options.inFile) {
-        program.error('No input-file specified.', { exitCode: EXIT_CODES.INVALID_CLI_ARGS })
+        program.error('No input-file specified.', { exitCode: EXIT_CODES.INVALID_CLI_ARGS });
+        return;
       }
-      let result: string, fileData: string;
+      let result: string, fileData: string, parsedCsvData: Row[];
 
       try {
         fileData = await fs.readFile(options.inFile, 'utf-8');
       } catch (err) {
-        if (err instanceof Error) {
-          program.error(err.message, { exitCode: EXIT_CODES.FILE_ERROR })
-        }
-        program.error('Unknown error reading file', { exitCode: EXIT_CODES.UNKNOWN_ERROR });
+        handleErrorAndExit(program, err, EXIT_CODES.FILE_ERROR, 'Unknown error reading file');
+        return;
       }
-      const parsedCsvData = await neatCsv(fileData);
+
+      try {
+        parsedCsvData = await neatCsv(fileData);
+      } catch (err) {
+        handleErrorAndExit(program, err, EXIT_CODES.CSV_PARSER_ERROR, 'Unknown error parsing CSV');
+        return;
+      }
+
       const addressData: AddressData[] = parsedCsvData.map(row => ({
         street: row.Street ?? '',
         city: row.City ?? '',
         zipcode: row['Zip Code'] ?? '',
         candidates: 1,
-      }))
+      }));
+
       try {
         const http = HttpClient;
         const resp = await http.validateAddress(addressData);
         result = formatValidationOutput(addressData, resp);
       } catch (err) {
-        if (err instanceof Error) {
-          program.error(err.message, { exitCode: EXIT_CODES.API_ERROR })
-        }
-        program.error('Unknown error calling API', { exitCode: EXIT_CODES.UNKNOWN_ERROR });
+        handleErrorAndExit(program, err, EXIT_CODES.API_ERROR, 'Unknown error calling API');
+        return;
       }
+
       if (options.outFile) {
         try {
           await fs.writeFile(options.outFile, result ?? 'No results found');
         } catch (err) {
-          if (err instanceof Error) {
-            program.error(err.message, { exitCode: EXIT_CODES.FILE_ERROR })
-          }
-          program.error('Unknown error writing file', { exitCode: EXIT_CODES.UNKNOWN_ERROR });
+          handleErrorAndExit(program, err, EXIT_CODES.FILE_ERROR, 'Unknown error writing file');
         } finally {
           return;
         }
@@ -70,4 +74,11 @@ function formatValidationOutput(initialData: AddressData[], finalData: AddressLo
     const formattedFinalAddress = `${result.delivery_line_1}, ${result.components.city_name}, ${result.components.zipcode ?? ''}-${result.components.plus4_code ?? ''}`;
     return `${formattedInitialAddress} -> ${formattedFinalAddress}\n`;
   }).join('');
+}
+
+function handleErrorAndExit(program: Command, err: unknown, exitCode: ObjValues<typeof EXIT_CODES>, defaultMessage = 'Unknown error') {
+  if (err instanceof Error) {
+    program.error(err.message, { exitCode });
+  }
+  program.error(defaultMessage, { exitCode });
 }
