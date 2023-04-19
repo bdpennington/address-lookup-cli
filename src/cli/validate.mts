@@ -33,6 +33,12 @@ export default (program: Command) => {
         return;
       }
 
+      const isValid = isCsvResultValid(parsedCsvData);
+      if (!isValid) {
+        const err = new Error('Malformed CSV. Ensure each row has a "Street", "City", and "Zip Code" column');
+        handleErrorAndExit(program, err, EXIT_CODES.CSV_PARSER_ERROR)
+      }
+
       const addressData: AddressData[] = parsedCsvData.map(row => ({
         street: row.Street ?? '',
         city: row.City ?? '',
@@ -73,6 +79,15 @@ function formatValidationOutput(initialData: AddressData[], finalData: AddressLo
     const formattedFinalAddress = `${result.delivery_line_1}, ${result.components.city_name}, ${result.components.zipcode ?? ''}-${result.components.plus4_code ?? ''}`;
     return `${formattedInitialAddress} -> ${formattedFinalAddress}\n`;
   }).join('');
+}
+
+function isCsvResultValid(result: Row[]) {
+  const requiredColumns = ['Street', 'City', 'Zip Code'];
+  const missingColumns = requiredColumns.filter(column => !result.some(row => row[column] !== undefined));
+  if (missingColumns.length > 0) {
+    return false;
+  }
+  return true;
 }
 
 function handleErrorAndExit(program: Command, err: unknown, exitCode: ObjValues<typeof EXIT_CODES>, defaultMessage = 'Unknown error') {
