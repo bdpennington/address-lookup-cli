@@ -48,25 +48,52 @@ You can install this CLI application globally on your system with from the root 
 npm install -g
 
 # then you can run it via
-address-lookup <options>
+address-lookup [options] [command]
 ```
 
 Or, if you don't want to install it system-wide, you can just run it with node.
 
 ```bash
-node .bin/index.js
+node .bin/index.js [options] [command]
 ```
 
 ## Usage
 
+### Main CLI interface
+
 ```
-Usage: address-lookup [options]
+$ address-lookup --help
+Usage: address-lookup [options] [command]
+
+Address lookup tools for the Smarty Address Lookup API
+
+Options:
+  -v, --version       output the current version
+  -h, --help          display help for command
+
+Commands:
+  validate [options]  A CLI for validating addresses from Smarty Address Lookup API
+  help [command]      display help for command
+```
+
+### Using the Validate Command
+
+```
+$ address-lookup validate -h
+Usage: address-lookup validate [options]
 
 A CLI for validating addresses from Smarty Address Lookup API
 
 Options:
-  -v, --version          output the current version
   -i, --in-file <file>   input csv file
-  -o, --out-file <file>  output file
+  -o, --out-file <file>  output file (if omitted, stdout is used)
   -h, --help             display help for command
 ```
+
+### Adding Additional Commands
+
+To register new commands:
+
+1. Create a new file in `src/cli.mts` to define a command. See `src/cli/validate.mts` for an example.
+2. Add it to the `commands` array in `src/main.mts`.
+3. Build and reinstall the CLI as described in the [Setup Steps](#setup-steps) section.
