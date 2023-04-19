@@ -5,7 +5,8 @@ node_modules
 /.bin
 /tests/e2e/videos/
 /tests/e2e/screenshots/
-
+in.csv
+out.txt
 
 # local env files
 .env

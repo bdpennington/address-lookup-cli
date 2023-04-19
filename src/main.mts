@@ -4,6 +4,9 @@ import * as dotenv from 'dotenv';
 import { program } from 'commander';
 import type { CLIOptions } from './types/cli.js';
 import * as fs from 'node:fs/promises';
+import neatCsv from 'neat-csv';
+import { validateAddress } from './http/client.js';
+import type { AddressData } from './types/smarty.js';
 
 dotenv.config();
 
@@ -16,7 +19,15 @@ program
   .action(async (options: CLIOptions) => {
     if (options.inFile) {
       const fileData = await fs.readFile(options.inFile, 'utf-8');
-      console.log('data', fileData);
+      const parsedData = await neatCsv(fileData);
+      const addressData: AddressData[] = parsedData.map(row => ({
+        street: row.Street ?? '',
+        city: row.City ?? '',
+        zipcode: row['Zip Code'] ?? '',
+        candidates: 1,
+      }))
+      const resp = await validateAddress(addressData);
+      console.log('data', resp);
     }
     if (options.outFile) {
       await fs.writeFile(options.outFile, 'text to write');

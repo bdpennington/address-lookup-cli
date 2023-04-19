@@ -25,6 +25,7 @@ Create a `.env` file at the project root and add the following:
 ```
 SMARTY_AUTH_ID=your_auth_id
 SMARTY_AUTH_TOKEN=your_auth_token
+SMARTY_LICENSE=your_license
 SMARTY_API_HOST=us-street.api.smartystreets.com
 ```
 
