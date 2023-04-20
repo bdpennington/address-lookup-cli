@@ -4,7 +4,8 @@ export default class AddressLookupCLI {
   private _cli: typeof program;
 
   constructor() {
-    this._cli = program
+    const _cli = new Command();
+    this._cli = _cli
       .name('address-lookup')
       .version('1.0.0', '-v, --version', 'output the current version')
       .description('Address lookup tools for the Smarty Address Lookup API');
@@ -12,7 +13,7 @@ export default class AddressLookupCLI {
 
   public registerCommands(commands: Command[]) {
     for (const command of commands) {
-      program.addCommand(command);
+      this._cli.addCommand(command);
     }
   }
 
