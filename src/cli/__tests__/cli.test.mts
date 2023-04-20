@@ -46,7 +46,6 @@ describe('CLI Tests', () => {
     const outFileUrl = 'src/cli/__tests__/test_good_file_out.txt';
     await CLI.parseAsync(['', '', 'validate', '-i', inFileUrl, '-o', outFileUrl]);
     const outFile = await fs.readFile(outFileUrl, 'utf-8');
-    console.log('outfile', outFile);
     expect(outFile).toBe('143 e Maine Street, Columbus, 43215 -> 143 E Main St, Columbus, 43215-5370\n');
     await fs.rm(outFileUrl);
   })
@@ -61,7 +60,7 @@ describe('CLI Tests', () => {
       .configureOutput({
         writeErr: writeMock,
       })
-      .parseAsync(['', '', 'validate', '-i not_real_file.csv'])
+      .parseAsync(['', '', 'validate', '-i', 'not_real_file.csv']);
     } catch (err) {
       expect(writeMock).toHaveBeenCalledOnce();
       expect((err as CommanderError).exitCode).toBe(EXIT_CODES.FILE_ERROR);

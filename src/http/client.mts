@@ -3,6 +3,9 @@ import type { AddressLookupRequest, AddressLookupResponse } from '../types/smart
 import * as dotenv from 'dotenv';
 dotenv.config();
 
+/**
+ * Handles HTTP requests. Additional calls for new commands can be added here.
+ */
 class HttpClient {
   private _baseUrl: URL;
 
@@ -38,7 +41,6 @@ class HttpClient {
   public async validateAddress(reqData: AddressLookupRequest): Promise<AddressLookupResponse> {
     let resp;
     try {
-      console.log('I AM NOT CALLED');
       resp = await fetch(this._baseUrl, {
         method: 'POST',
         headers: {

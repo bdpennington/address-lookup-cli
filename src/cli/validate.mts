@@ -7,6 +7,10 @@ import { EXIT_CODES } from '../constants.mjs';
 import type { AddressData, AddressLookupResponse } from '../types/smarty.js';
 import { ObjValues } from '../types/helpers.js';
 
+/**
+ * This creates and registers the validate command for address validation.
+ * @param program The CLI this command is to be added to
+ */
 export default (program: Command) => {
   return program
     .createCommand('validate')
@@ -69,6 +73,12 @@ export default (program: Command) => {
     });
 };
 
+/**
+ * Helper for validate command that formats its output
+ * @param initialData Parsed addresses from CSV
+ * @param finalData body from Smarty API address lookup
+ * @returns formatted output
+ */
 function formatValidationOutput(initialData: AddressData[], finalData: AddressLookupResponse) {
   return initialData.map((addressData, inputIndex) => {
     const formattedInitialAddress = `${addressData.street}, ${addressData.city}, ${addressData.zipcode}`;
@@ -81,6 +91,11 @@ function formatValidationOutput(initialData: AddressData[], finalData: AddressLo
   }).join('');
 }
 
+/**
+ * Helper to validate CSV parser output
+ * @param result Result of CSV parser
+ * @returns true if CSV results are valid
+ */
 function isCsvResultValid(result: Row[]) {
   const requiredColumns = ['Street', 'City', 'Zip Code'];
   const missingColumns = requiredColumns.filter(column => !result.some(row => row[column] !== undefined));
@@ -90,6 +105,13 @@ function isCsvResultValid(result: Row[]) {
   return true;
 }
 
+/**
+ * Helper to handle errors and exit the application
+ * @param program CLI application
+ * @param err Error
+ * @param exitCode Valid error code
+ * @param defaultMessage Message to send to stderr
+ */
 function handleErrorAndExit(program: Command, err: unknown, exitCode: ObjValues<typeof EXIT_CODES>, defaultMessage = 'Unknown error') {
   if (err instanceof Error) {
     program.error(err.message, { exitCode });

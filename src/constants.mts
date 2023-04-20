@@ -1,3 +1,6 @@
+/**
+ * Valid exit codes used by CLI application
+ */
 export const EXIT_CODES = {
   OK: 0,
   API_ERROR: 1,
