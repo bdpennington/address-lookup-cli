@@ -10,10 +10,7 @@ export default class AddressLookupCLI {
 
   constructor() {
     const _cli = new Command();
-    this._cli = _cli
-      .name('address-lookup')
-      .version('1.0.0', '-v, --version', 'output the current version')
-      .description('Address lookup tools for the Smarty Address Lookup API');
+    this._cli = _cli.name('address-lookup').version('1.0.0', '-v, --version', 'output the current version').description('Address lookup tools for the Smarty Address Lookup API');
   }
 
   /**

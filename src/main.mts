@@ -7,7 +7,7 @@ const CLIBuilder = new AddressLookupCLI();
 const CLI = CLIBuilder.program;
 
 // Add any additional commands here to register them with the main CLI
-const commands = [makeValidateCommand(CLI)]
+const commands = [makeValidateCommand(CLI)];
 
 CLIBuilder.registerCommands(commands);
 

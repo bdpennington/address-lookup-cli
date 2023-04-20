@@ -12,7 +12,7 @@ class HttpClient {
   constructor() {
     const url = this.tryMakeApiUrl();
     if (!url) {
-      throw new Error('Missing required environment variables. Ensure that all are set as defined in this package\'s README');
+      throw new Error("Missing required environment variables. Ensure that all are set as defined in this package's README");
     }
     this._baseUrl = url;
   }
@@ -29,15 +29,15 @@ class HttpClient {
     const searchParams = new URLSearchParams({
       'auth-id': AUTH_ID,
       'auth-token': AUTH_TOKEN,
-      'license': API_LICENSE,
+      license: API_LICENSE,
     });
     return new URL(`https://${API_HOST}/street-address?${searchParams.toString()}`);
   }
 
- /**
- * Calls Smarty Address Lookup API to validate a list of address
- * @throws {Error} if the API call fails, or if parsing the response fails
- */
+  /**
+   * Calls Smarty Address Lookup API to validate a list of address
+   * @throws {Error} if the API call fails, or if parsing the response fails
+   */
   public async validateAddress(reqData: AddressLookupRequest): Promise<AddressLookupResponse> {
     let resp;
     try {
@@ -59,7 +59,7 @@ class HttpClient {
     }
 
     try {
-      return await resp.json() as AddressLookupResponse;
+      return (await resp.json()) as AddressLookupResponse;
     } catch (err) {
       throw new Error('Error parsing response body', { cause: err });
     }

@@ -6,6 +6,9 @@
     "address-lookup": ".bin/index.js"
   },
   "scripts": {
+    "lint": "eslint ./src --ext .js,.ts,.mts",
+    "format": "prettier -c -w ./src/**/*.{js,ts,mts}",
+    "test": "vitest --run",
     "prepare": "esbuild src/main.mts --outfile=.bin/index.js --bundle --platform=node --target=node18"
   },
   "keywords": [],

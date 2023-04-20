@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import type { CLIOptions } from '../types/cli.js';
 import * as fs from 'node:fs/promises';
 import neatCsv, { type Row } from 'neat-csv';
-import HttpClient from '../http/client.mjs'
+import HttpClient from '../http/client.mjs';
 import { EXIT_CODES } from '../constants.mjs';
 import type { AddressData, AddressLookupResponse } from '../types/smarty.js';
 import { ObjValues } from '../types/helpers.js';
@@ -40,10 +40,10 @@ export default (program: Command) => {
       const isValid = isCsvResultValid(parsedCsvData);
       if (!isValid) {
         const err = new Error('Malformed CSV. Ensure each row has a "Street", "City", and "Zip Code" column');
-        handleErrorAndExit(program, err, EXIT_CODES.CSV_PARSER_ERROR)
+        handleErrorAndExit(program, err, EXIT_CODES.CSV_PARSER_ERROR);
       }
 
-      const addressData: AddressData[] = parsedCsvData.map(row => ({
+      const addressData: AddressData[] = parsedCsvData.map((row) => ({
         street: row.Street ?? '',
         city: row.City ?? '',
         zipcode: row['Zip Code'] ?? '',
@@ -64,9 +64,8 @@ export default (program: Command) => {
           await fs.writeFile(options.outFile, result ?? 'No results found');
         } catch (err) {
           handleErrorAndExit(program, err, EXIT_CODES.FILE_ERROR, 'Unknown error writing file');
-        } finally {
-          return;
         }
+        return;
       }
       // Print to stdout if no output file is specified
       console.info(result);
@@ -80,15 +79,17 @@ export default (program: Command) => {
  * @returns formatted output
  */
 function formatValidationOutput(initialData: AddressData[], finalData: AddressLookupResponse) {
-  return initialData.map((addressData, inputIndex) => {
-    const formattedInitialAddress = `${addressData.street}, ${addressData.city}, ${addressData.zipcode}`;
-    const result = finalData.find((addressData) => addressData.input_index === inputIndex);
-    if (!result) {
-      return `${formattedInitialAddress} -> Invalid Address\n`;
-    }
-    const formattedFinalAddress = `${result.delivery_line_1}, ${result.components.city_name}, ${result.components.zipcode ?? ''}-${result.components.plus4_code ?? ''}`;
-    return `${formattedInitialAddress} -> ${formattedFinalAddress}\n`;
-  }).join('');
+  return initialData
+    .map((addressData, inputIndex) => {
+      const formattedInitialAddress = `${addressData.street}, ${addressData.city}, ${addressData.zipcode}`;
+      const result = finalData.find((addressData) => addressData.input_index === inputIndex);
+      if (!result) {
+        return `${formattedInitialAddress} -> Invalid Address\n`;
+      }
+      const formattedFinalAddress = `${result.delivery_line_1}, ${result.components.city_name}, ${result.components.zipcode ?? ''}-${result.components.plus4_code ?? ''}`;
+      return `${formattedInitialAddress} -> ${formattedFinalAddress}\n`;
+    })
+    .join('');
 }
 
 /**
@@ -98,7 +99,7 @@ function formatValidationOutput(initialData: AddressData[], finalData: AddressLo
  */
 function isCsvResultValid(result: Row[]) {
   const requiredColumns = ['Street', 'City', 'Zip Code'];
-  const missingColumns = requiredColumns.filter(column => !result.some(row => row[column] !== undefined));
+  const missingColumns = requiredColumns.filter((column) => !result.some((row) => row[column] !== undefined));
   if (missingColumns.length > 0) {
     return false;
   }
