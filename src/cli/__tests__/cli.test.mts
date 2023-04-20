@@ -4,7 +4,6 @@ import makeValidateCommand from '../../cli/validate.mjs';
 import { EXIT_CODES } from '../../constants.mjs';
 import { vi, describe, it, expect } from 'vitest';
 import * as fs from 'node:fs/promises';
-import HttpClient from '../../http/client.mjs';
 
 vi.mock('../../http/client.mjs', () => {
   return {
@@ -31,8 +30,6 @@ function cliFactory() {
   CLIBuilder.registerCommands(commands);
   return CLI;
 }
-
-HttpClient;
 
 function fail(): never {
   throw new Error("test shouldn't reach this point");
