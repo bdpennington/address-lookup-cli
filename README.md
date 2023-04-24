@@ -1,8 +1,8 @@
-# Empora Work Sample
+# Address Lookup CLI
 
 ## Table of Contents
 
-- [Empora Work Sample](#empora-work-sample)
+- [Address Lookup CLI](#address-lookup-cli)
   - [Table of Contents](#table-of-contents)
   - [Setup Steps](#setup-steps)
     - [Requirements](#requirements)
@@ -19,16 +19,6 @@
     - [Where Tests \& Mocks Live](#where-tests--mocks-live)
     - [Running Tests](#running-tests)
   - [Other Useful Scripts](#other-useful-scripts)
-  - [Thought Process Behind My Decisions](#thought-process-behind-my-decisions)
-    - [Language](#language)
-    - [Project Structure](#project-structure)
-      - [Overview](#overview)
-      - [Thought-Process](#thought-process)
-    - [Testing Strategy](#testing-strategy)
-    - [Other Notes](#other-notes)
-      - [Overview](#overview-1)
-      - [I Learned teh Things](#i-learned-teh-things)
-      - [Final Comments](#final-comments)
 
 ## Setup Steps
 
@@ -183,67 +173,3 @@ pnpm run format
 
 pnpm run lint
 ```
-
-## Thought Process Behind My Decisions
-
-### Language
-
-I chose TypeScript because of my familiarity with it, It's a great tool for static analysis, and as a result, it provides immediate feedback when I make mistakes.
-
-### Project Structure
-
-#### Overview
-
-Project structure should feel pretty familiar
-
-- `src/main.mts` is the script entry point
-- `src/cli` contains the construction and configuration of the CLI, using [Commander](https://github.com/tj/commander.js)
-- `src/http` contains stuff relevant to http calls to the Smarty API
-- `src/types` contains most of the project's TypeScript types
-
-The main driving factor for modularizing it the way I did was to make it easy to update existing commands, and add new ones.
-
-#### Thought-Process
-
-The most concise way I can describe how this project was developed (and how I approach problems generally) is that I first make a feature work, then I refactor one or more times to modularize it and clean it up. The best way to gain an understanding of my thought process is to look at the commit history.
-
-Decisions about abstraction are made with the following criteria (in no particular order):
-
-- Will it make the application easier to change/extensible
-- Will it make the application cleaner and more readable
-- Can I put like things together
-- Am I repeating myself
-
-I will not necessarily abstract away functionality just because I can. I've worked with projects that were written this way, and I find them unnecessarily  difficult to work with (i.e. I need six files open to understand some basic concept).
-
-### Testing Strategy
-
-While I have used TDD before, I choose not to develop that way because as I develop, I will constantly change the way a feature works, where it lives, etc. While I do plan ahead how I will develop something, plans change quickly when I run into unanticipated issues which necessitate a change in thinking. As mentioned above, I focus less initially on making something perfect the first time, and instead of just making it work.
-
-That said, I am a firm proponent of testing generally when working with large projects, or with a team. There is ample evidence of its benefits, including developer experience, safety, and reliability, which of corse all lead to significant time and cost-savings for an organization.
-
-If you look at the commit history, you will see that I only tested at the end of development. You can be sure that it is __not__ because testing is afterthought to me. Were this a larger project, I would generally write tests on a feature-by-feature basis, but because this is small, I felt it more appropriate to write user-focused integration tests following development.
-
-See also: [Testing](#testing)
-
-### Other Notes
-
-#### Overview
-
-I had a lot of fun working on this project and probably went a bit overboard developing it. I often wondered if others tasked with this work sample went so far as to build a fully installable CLI application, but the more I explored the idea, the more interested I became.
-
-#### I Learned teh Things
-
-I also like to use every opportunity I have to learn something. In this project, I learned:
-
-- How to configure a npm package to install a binary
-- Quite a bit about how the `Commander` library works.
-- Used node's native `fetch` API (fetch isn't new, but was added natively to node 17), which for whatever reason, isn't typed for TypeScript, hence the `src/fetch.d.ts` file.
-
-This project has given me to drive to write more utility CLIs, though I'll probably want to write them in Rust, because I enjoy the language and want to keep learning to use it more effectively (plus, you can do some cool stuff compiling to WebAssembly, especially now that more browsers have shipped native shared array buffer).
-
-#### Final Comments
-
-If you haven't given up reading yet, persisting through my verbosity, I hope you find my work interesting and engaging. If you decide you'd like to move forward with me, I look forward to discussing it further with you!
-
-Thanks!
