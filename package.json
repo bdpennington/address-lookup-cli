@@ -1,7 +1,7 @@
 {
-  "name": "empora-work-sample",
+  "name": "address-lookup-cli",
   "version": "1.0.0",
-  "description": "Work sample demonstration for Empora",
+  "description": "A CLI for validating addresses via the Smarty Streets API",
   "bin": {
     "address-lookup": ".bin/index.js"
   },
@@ -17,7 +17,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/bdpennington/empora-work-sample"
+    "url": "https://github.com/bdpennington/address-lookup-cli"
   },
   "engines": {
     "node": "^18.0.0"
